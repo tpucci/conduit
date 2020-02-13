@@ -26,6 +26,22 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Use Event Store
+config :commanded,
+  event_store_adapter: Commanded.EventStore.Adapters.EventStore
+
+# Event store
+config :conduit, Conduit.EventStore,
+  serializer: Commanded.Serialization.JsonSerializer,
+  username: "postgres",
+  password: "postgres",
+  database: "conduit_eventstore_dev",
+  hostname: "localhost",
+  port: 5433,
+  pool_size: 10
+
+config :conduit, event_stores: [Conduit.EventStore]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
